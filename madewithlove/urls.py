@@ -26,7 +26,10 @@ urlpatterns = [
 
 
     # this is the url for the signup (/accounts/seller/signup)
-    path('accounts/seller', include('accounts.urls')),
+    path('', include('accounts.urls')),
+
+    # this is the url for seller
+    # path('/seller', include('seller.urls')),
 
     path('admin/', admin.site.urls),
 ]

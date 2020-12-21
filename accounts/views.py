@@ -1,17 +1,28 @@
 from django.shortcuts import render
-
-# Create your views here.
 from rest_framework.response import Response 
 from rest_framework.views import APIView
 from rest_framework import permissions
 
-class signup(APIView):
+#importinf models of tables 
+from .models import Seller
+from .models import Category
+
+
+class signupSeller(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
         data = self.request.data  
         email = data['email']
+        store_name = data['storeName']
         password = data['password']
+        location = data['location']
+        category = data['category']
+        description = data['description']
+        location = data['location']
+        delievery_time = data ['delieveryTime']
+        image = data ['url']
+        #  user = Category.objects.create(name = name)
         return Response ({'success':'receiveeed'})
 
 
