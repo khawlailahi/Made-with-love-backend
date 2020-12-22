@@ -29,7 +29,7 @@ urlpatterns = [
     path('', include('accounts.urls')),
 
     # this is the url for seller
-    # path('/seller', include('seller.urls')),
+     path('seller/', include('seller.urls')),
 
     path('admin/', admin.site.urls),
 ]

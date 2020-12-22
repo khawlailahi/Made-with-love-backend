@@ -9,11 +9,13 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+from django.db.backends.mysql.base import DatabaseWrapper
 
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime' # fix for MySQL 5.5
 
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Quick-start development settings - unsuitable for production
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    # 'djoser',
     'rest_framework',
     'accounts',
     
@@ -85,8 +88,8 @@ DATABASES = {
         'USER' :'b4152217a5ee2b',
         'PASSWORD':'8f7ec055',
         'HOST': 'us-cdbr-east-02.cleardb.com',
-        'PORT':'3306'
-       
+        'PORT':'3306',
+      
     }
 }
 
