@@ -1,55 +1,62 @@
+
+
+# Create your views here.
 from django.shortcuts import render
 from rest_framework.response import Response 
 from rest_framework.views import APIView
 from rest_framework import permissions
-
-#importinf models of tables 
-from .models import Seller
-from .models import Category
+from django.shortcuts import render
+from .models import Item
 
 
-class signupSeller(APIView):
-    permission_classes = (permissions.AllowAny,)
+# class signupSeller(APIView):
+#     permission_classes = (permissions.AllowAny,)
 
-    def post(self, request, format=None):
-        data = self.request.data  
-        email = data['email']
-        store_name = data['storeName']
-        password = data['password']
-        location = data['location']
-        category = data['category']
-        description = data['description']
-        location = data['location']
-        delievery_time = data ['delieveryTime']
-        image = data ['url']
-        #  user = Category.objects.create(name = name)
-        return Response ({'success':'receiveeed'})
+#     def post(self, request, format=None):
+#         data = self.request.data  
+#         email = data['email']
+#         store_name = data['storeName']
+#         password = data['password']
+#         # store_Name= data['name']
+#         cat = Category.objects.create(name=name)
+#         cat.save()
+#         return Response ({'success':'lololoolleshh'})
+#         # return Response ({'success':'receiveeed'})
+#         location = data['location']
+#         category = data['category']
+#         description = data['description']
+#         location = data['location']
+#         delievery_time = data ['delieveryTime']
+#         image = data ['url']
+#         #  user = Category.objects.create(name = name)
+#         return Response ({'success':'receiveeed'})
 
 
-        #---->> i prepared this for later (after we make sure it's working)
+        # ---->> i prepared this for later (after we make sure it's working)
 
-        # if data['userType'] === 'buyer': 
+        # if data['userType'] == 'buyer': 
         #     username = data['username']
         #     location = data['location']
         #     phoneNumber = data['phoneNumber']
-        #     if model.objects.filter(email = email).exist():
+        #     if Buyer.objects.filter(email = email).exist():
         #         return Response ({'error':"Email already exist"})
         #     else :
-        #         user = model.objects.create_user (email=email, password=password, userName=username, location=location, phoneNumber=phoneNumber)
+        #         user = Buyer.objects.create_user(email=email, password=password, username=username, location=location, phonenumber=phoneNumber)
         #         user.save()
         #         return Response ({'success': 'user created'})
 
-        # if data['userType'] === 'seller': 
-        #     storeName = data['storeName']
+        # if data['userType'] == 'seller': 
+        #     store_name = data['storeName']
         #     description = data['description']
         #     location = data['location']
         #     delievaryTime = data['delievaryTime']
         #     image = data['image']
-        #     if model.objects.filter(email = email).exist():
+        #     if Seller.objects.filter(email = email).exist():
         #         return Response ({'error':"Email already exist"})
         #     else :
-        #         user = model.objects.create_user (email=email, password=password, store_Name = storeName, description=descritption,location=location, delievary-time=delievary_time )
+        #         user = Seller.objects.create_user(email=email, password=password, store_name = store_name, description=descritption,location=location, delievary_time=delievaryTime )
         #         user.save()
         #         return Response ({'success': 'user created'}) 
         # else:
-            # return Response ({'ERROR':"no user information provided"})
+        #     return Response ({'ERROR':"no user information provided"})
+
