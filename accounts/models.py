@@ -6,9 +6,32 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-class Seller(models.Model):
-    store_id = models.IntegerField(primary_key=True)
+class UserAccountManager(BaseUserManager):
+    def create_user(self, email, store_name  , description, delivery_time, image, location, category, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
+        
+        email = self.normalize_email(email)
+        user = self.model(email=email,  store_name = store_name , password = password, description=description, delivery_time=delivery_time, image=image, location=location, category=category)
+
+        user.set_password(password)
+        user.save()
+
+        return user
+    
+    def create_superuser(self, email, name, password):
+        user = self.create_user(email, name, password)
+
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        return user
+
+class Seller(AbstractBaseUser, models.Model):
+    store_id = models.AutoField(primary_key=True)
     email = models.CharField(unique=True, max_length=110)
     password = models.CharField(max_length=45)
     store_name = models.CharField(max_length=45)
@@ -16,19 +39,44 @@ class Seller(models.Model):
     description = models.CharField(max_length=200, blank=True, null=True)
     delivery_time = models.CharField(db_column='delivery-time', max_length=45)  # Field renamed to remove unsuitable characters.
     image = models.TextField()
-
+    category=models.CharField(max_length=45)
+    objects =  UserAccountManager()
+    USERNAME_FIELD = 'email'
     class Meta:
         # managed = True
         db_table = 'seller'
 
-class Buyer(models.Model):
+class BuyerAccountManager(BaseUserManager):
+    def create_user(self, email, username , location, phonenumber, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
+        
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username , location=location, phonenumber=phonenumber, password=password)
+
+        user.set_password(password)
+        user.save()
+
+        return user
+    
+    def create_superuser(self, email, name, password):
+        user = self.create_user(email, name, password)
+
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        return user
+
+class Buyer(AbstractBaseUser,models.Model):
     buyer_id = models.AutoField(primary_key=True)
     email = models.CharField(unique=True, max_length=110)
     password = models.CharField(max_length=45)
     username = models.CharField(db_column='userName', unique=True, max_length=45)  # Field name made lowercase.
     location = models.CharField(max_length=100)
     phonenumber = models.IntegerField(db_column='phoneNumber')  # Field name made lowercase.
-
+    objects =  BuyerAccountManager()
+    USERNAME_FIELD = 'email'
     class Meta:
         # managed = True
         db_table = 'buyer'
