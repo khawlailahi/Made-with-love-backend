@@ -9,7 +9,7 @@ from django.db import models
 
 class Seller(models.Model):
     store_id = models.IntegerField(primary_key=True)
-    email = models.CharField(unique=True, max_length=110)
+    email = models.EmailField(unique=True, max_length=110)
     password = models.CharField(max_length=45)
     store_name = models.CharField(max_length=45)
     location = models.CharField(max_length=200)
@@ -53,6 +53,9 @@ class Item(models.Model):
     size = models.IntegerField(blank=True, null=True)
     image = models.TextField()
     material = models.CharField(max_length=45, blank=True, null=True)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE, blank=True, null=True)
+    store = models.ForeignKey(Seller, on_delete=models.CASCADE, blank=True, null=True)
+
     category = models.ForeignKey(Category,on_delete=models.CASCADE, blank=True )
     store = models.ForeignKey(Seller, on_delete=models.CASCADE,  blank=True)
 
@@ -64,6 +67,8 @@ class Item(models.Model):
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     quantity = models.IntegerField()
+    store = models.ForeignKey(Seller,on_delete= models.CASCADE)
+
     store = models.ForeignKey(Seller, on_delete= models.CASCADE)
     item = models.ForeignKey(Item, on_delete= models.CASCADE)
     phonenumber = models.IntegerField(db_column='phoneNumber')  # Field name made lowercase.
