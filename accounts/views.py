@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from rest_framework.response import Response 
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions
+import jwt,json
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import check_password
@@ -14,6 +15,17 @@ from .models import Buyer
 from .models import Category
 import json as JSON
 from django.contrib.auth.hashers import check_password
+
+# import jwt
+#  key = "secret"
+#   encoded = jwt.encode({"some": "payload"}, key, algorithm="HS256")
+#  print(encoded)
+#  jwt.decode(encoded, key, algorithms="HS256")
+# {'some': 'payload'}
+
+
+
+
 
 class signupSeller(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -89,3 +101,38 @@ class signupBuyer(APIView):
 
 
         
+
+
+class Login(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        if not request.data:
+            return Response({'Error': "Please provide username/password"}, status="400")
+        
+        email = request.data['email']
+        password = request.data['password']
+        try:
+            user = Buyer.objects.get(email=email)
+            print(user)
+        except Buyer.DoesNotExist:
+
+            return Response({'Error':'nooo'}, status="400")
+
+        if user.check_password(password):
+            payload = {
+                
+                'email': user.email,
+            }
+            jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
+
+            return Response( json.dumps(jwt_token),
+              status=200,
+              content_type="application/json")
+             
+        else:
+            return Response(
+              json.dumps({'Error': "Invalid credentials"}),
+              status=400,
+              content_type="application/json"
+            )
