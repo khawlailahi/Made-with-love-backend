@@ -26,8 +26,14 @@ urlpatterns = [
 
 
     # this is the url for the signup (/accounts/seller/signup)
+<<<<<<< HEAD
+    path('tr1/', include('accounts.urls')),
+
+    # this is the url for seller
+=======
     path('', include('accounts.urls')),
   # this is the url for buyer
+>>>>>>> 2fb8cb1807c4388b53f8ac2e4fc5040cd110df54
      path('seller/', include('seller.urls')),
     # this is the url for seller
      path('buyer/', include('buyer.urls')),
