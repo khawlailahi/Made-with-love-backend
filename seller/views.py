@@ -6,7 +6,7 @@ from rest_framework import permissions
 from django.shortcuts import render
 import json as JSON
 from django.core.serializers import json
-import jwt,json
+# import jwt,json
 
 #importinf models of tables 
 from accounts.models import Item

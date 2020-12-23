@@ -132,6 +132,7 @@ class Order(models.Model):
     phonenumber = models.IntegerField(db_column='phoneNumber')  # Field name made lowercase.
     order_date = models.CharField(max_length=45)
     delievery_date = models.CharField(max_length=45, blank=True, null=True)
+    location = models.CharField(max_length=90)
     buyer = models.ForeignKey(Buyer, on_delete=models.CASCADE)
 
     class Meta:

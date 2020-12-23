@@ -9,19 +9,38 @@ from accounts.models import Item
 from accounts.models import Seller
 from accounts.models import Buyer
 from accounts.models import Category
+from accounts.models import Order
 
+class orderItem(APIView):
+    permission_classes = (permissions.AllowAny,)
 
+    def post(self, request, format=None):
+        data = self.request.data  
+        print('innnn')
+        order = data['order']
+        item_id = data['item_id']
+        
+        phonenumber = order['phoneNumber']
+        print(phonenumber)
+        quantity=order['quantity']
+        location = order['location']
+        store_id=data['store_id']
+        date=data['date']
+        obj = Buyer.objects.get(phonenumber = phonenumber)
+        print(obj.buyer_id)
+        orders= Order.objects.create(buyer_id = obj.buyer_id, quantity=quantity, store_id=store_id, item_id=item_id,phonenumber=phonenumber, order_date=date, location=location )
+        return Response ({'success':'Order Submited'})
 class getCategoryItems(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, cat):
         # data = self.request.data  
         print(cat)
-        obj = Seller.objects.filter(category = 100)
+        obj = Item.objects.filter(category = 100)
         json_serializer = json.Serializer()
         json_serialized = json_serializer.serialize(obj)
         data= JSON.loads(json_serialized)
-        # print(data)
+        # print(json_serialized)
         return Response (data)
         # print(json_serialized)
         # print(JSON.loads(json_serialized))
