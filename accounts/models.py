@@ -47,12 +47,12 @@ class Seller(AbstractBaseUser, models.Model):
         db_table = 'seller'
 
 class BuyerAccountManager(BaseUserManager):
-    def create_user(self, email, username , location, phonenumber, password=None):
+    def create_user(self, email, username , location, phonenumber,is_active, password=None ):
         if not email:
             raise ValueError('Users must have an email address')
         
         email = self.normalize_email(email)
-        user = self.model(email=email, username=username , location=location, phonenumber=phonenumber, password=password)
+        user = self.model(email=email, username=username , location=location, phonenumber=phonenumber, password=password, is_active=True)
 
         user.set_password(password)
         user.save()
@@ -75,8 +75,18 @@ class Buyer(AbstractBaseUser,models.Model):
     username = models.CharField(db_column='userName', unique=True, max_length=45)  # Field name made lowercase.
     location = models.CharField(max_length=100)
     phonenumber = models.IntegerField(db_column='phoneNumber')  # Field name made lowercase.
+    is_active = models.BooleanField(default=True)
     objects =  BuyerAccountManager()
     USERNAME_FIELD = 'email'
+
+    def get_full_name(self):
+        return self.username
+    
+    def get_short_name(self):
+        return self.username
+    
+    def __str__(self):
+        return self.email
     class Meta:
         # managed = True
         db_table = 'buyer'

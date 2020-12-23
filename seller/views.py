@@ -10,23 +10,61 @@ from django.shortcuts import render
 from accounts.models import Item
 from accounts.models import Seller
 from django.core.serializers import json
+import jwt,json
 
+#importinf models of tables 
+from accounts.models import Item
+from accounts.models import Seller
+from accounts.models import Buyer
+from accounts.models import Category
 
-
+class getCategoryStore (APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, cat):
+        # data = self.request.data  
+        print(cat)
+        obj = Seller.objects.filter(category = 'food')
+        json_serializer = json.Serializer()
+        json_serialized = json_serializer.serialize(obj)
+        data= JSON.loads(json_serialized)
+        # print(data)
+        return Response (data)
 
 
 class addItem(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
         data = self.request.data 
-        productName = data['productName'] 
+        print(data)
+
+        productName = data['product'] 
         description = data['description'] 
-        price = data['price'] 
-        gender = data['gender'] 
-        types = data['types'] 
-        size = data['size'] 
-        image = data['image'] 
-        material = data['material'] 
+        price = data['price']
+        category = data['category']
+        image = data['url'] 
+
+        if category == "clothes":
+            gender = data['gender'] 
+            size = data['size'] 
+            category_id = Category.objects.get(category_id =200)
+            item = Item.objects.create (productname = productName, description=description, price=price, gender=gender, size=size, image=image, category=200)
+            return Response ({'success': 'Add Item'})
+        if(category == 'food'):
+            types = data['type'] 
+            category_id = Category.objects.get(category_id =100) 
+            item = Item.objects.create (productname = productName, description=description, price=price,types=types, image=image, category_id=100)
+            return Response ({'success': 'Add Item'})
+        if category == 'accessories':
+            material = data['material'] 
+            category_id = Category.objects.get(category_id =300)
+            item = Item.objects.create (productname = productName, description=description, price=price, image=image, material=material, category=300)
+            return Response ({'success': 'Add Item'})
+        if category == 'baby products':
+            gender = data['gender']
+            category_id = Category.objects.get(category_id =400)
+            item = Item.objects.create (productname = productName, description=description, price=price, gender=gender, image=image, category=400)
+            return Response ({'success': 'Add Item'})
+
         # category_id = data['category_id']
         # store_id = data['store_id'] 
         item = Item.objects.create (productname = productName, description=description, price=price, gender=gender,types=types, size=size, image=image, material=material)
@@ -101,15 +139,6 @@ class SnippetDetailSeller(APIView):
     def get(self, request,pk, format=None):
         
         print(pk)
-        #   data = self.request.data 
-        # store_Name = data['store_Name'] 
-        # description = data['description'] 
-        # location = data['location'] 
-        # delivery_date = data[' delivery_date '] 
-        # image = data['image']
-        # category_id = data['category_id']
-        # store_id = data['store_id'] 
-        # serializer = SnippetSerializer(snippet)
         obj1 = Seller.objects.filter(pk=pk)
         json_serializer = json.Serializer()
         json_serialized1 = json_serializer.serialize(obj1)
@@ -138,3 +167,9 @@ class SnippetDetailSeller(APIView):
     #     snippet = self.get_object(pk)
     #     snippet.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
+        # item = Item.objects.create (productname = productName, description=description, price=price, gender=gender,types=types, size=size, image=image, material=material)
+        # item.save()
+        
+
+
+
