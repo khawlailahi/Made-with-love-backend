@@ -5,5 +5,6 @@ from .views import getCategoryStore
 from .views import addItem
 urlpatterns = [
  path('addItem', addItem .as_view(), ),
- path('<slug:cat>', getCategoryStore.as_view(), )
+ path('<slug:cat>', getCategoryStore.as_view(), ),
+ path('order', getListOrder .as_view(), )
  ]

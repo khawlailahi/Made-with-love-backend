@@ -13,7 +13,7 @@ from accounts.models import Item
 from accounts.models import Seller
 from accounts.models import Buyer
 from accounts.models import Category
-
+from accounts.models import Order
 class getCategoryStore (APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, cat):
@@ -24,6 +24,18 @@ class getCategoryStore (APIView):
         json_serialized = json_serializer.serialize(obj)
         data= JSON.loads(json_serialized)
         # print(data)
+        return Response (data)
+
+
+
+class getListOrder (APIView):
+     permission_classes = (permissions.AllowAny,)
+     def get(self, request, cat):
+         print(cat)
+         obj = Order.objects.filter(store_id=PK)
+        json_serializer = json.Serializer()
+        json_serialized = json_serializer.serialize(obj)
+        data= JSON.loads(json_serialized)
         return Response (data)
 
 
