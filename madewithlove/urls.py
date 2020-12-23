@@ -20,16 +20,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView , TokenRefreshView
 urlpatterns = [
-    # path('api-auth/', include('rest_framework.urls')),
-    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('api/token/refresh/',  TokenRefreshView.as_view(), name= 'token_refresh'),
 
 
     # this is the url for the signup (/accounts/seller/signup)
-    # path('', include('accounts.urls')),
-
-    # this is the url for seller
+    path('', include('accounts.urls')),
+  # this is the url for buyer
      path('seller/', include('seller.urls')),
+    # this is the url for seller
+     path('buyer/', include('buyer.urls')),
 
     path('admin/', admin.site.urls),
 ]

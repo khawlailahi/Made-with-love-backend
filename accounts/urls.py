@@ -1,11 +1,12 @@
 # from django import path 
-from django.contrib import admin
-from django.urls import path, include , re_path
-from django.views.generic import TemplateView
-from django.conf import settings
-from django.conf.urls.static import static
-from rest_framework_simplejwt.views import TokenObtainPairView , TokenRefreshView
+from .views import signupSeller
+from .views import signupBuyer
+# from .views import Login
+from django.urls import path
+urlpatterns = [
+    path('seller/signup', signupSeller.as_view(),),
+    path('buyer/signup', signupBuyer.as_view(),)
+    ,
+    # path('login', Login.as_view(),)
 
-
-# urlpatterns = [
-#  path('/seller', include('seller.urls')),]
+]
