@@ -14,7 +14,7 @@ class Seller(models.Model):
     store_name = models.CharField(max_length=45)
     location = models.CharField(max_length=200)
     description = models.CharField(max_length=200, blank=True, null=True)
-    delivery_time = models.CharField(db_column='delivery-time', max_length=45)  # Field renamed to remove unsuitable characters.
+    delivery_time = models.CharField(db_column='delivery_time', max_length=45)  # Field renamed to remove unsuitable characters.
     image = models.TextField()
 
     class Meta:

@@ -1,3 +1,12 @@
+# import environ
+# env = environ.Env(
+#     # set casting, default value
+#     DEBUG=(bool, False)
+# )
+# # reading .env file
+# environ.Env.read_env()
+
+
 """
 Django settings for madewithlove project.
 
@@ -40,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'djoser',
+    # 'djoser',
     'rest_framework',
     'accounts',
     
