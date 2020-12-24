@@ -8,15 +8,18 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+
 class UserAccountManager(BaseUserManager):
     def create_user(self, email, store_name  , description, delivery_time, image, location, category, password=None):
         if not email:
             raise ValueError('Users must have an email address')
+
+       
         
         email = self.normalize_email(email)
         user = self.model(email=email,  store_name = store_name , password = password, description=description, delivery_time=delivery_time, image=image, location=location, category=category)
 
-        user.set_password(password)
+               
         user.save()
 
         return user
@@ -54,7 +57,7 @@ class BuyerAccountManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, username=username , location=location, phonenumber=phonenumber, password=password, is_active=True)
 
-        user.set_password(password)
+        
         user.save()
 
         return user
@@ -137,6 +140,7 @@ class Order(models.Model):
     class Meta:
         # managed = True
         db_table = 'order'
+
 
 
 
