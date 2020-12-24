@@ -36,7 +36,16 @@ class getCategoryItems(APIView):
     def get(self, request, cat):
         # data = self.request.data  
         print(cat)
-        obj = Item.objects.filter(category = 100)
+        if cat == 'food':
+            category = 100
+        if cat == 'clothes':
+            category = 200
+        if cat == 'babyproducts':
+            print(cat)
+            category = 400
+        if cat == 'accessories':
+            category = 300
+        obj = Item.objects.filter(category = category)
         json_serializer = json.Serializer()
         json_serialized = json_serializer.serialize(obj)
         data= JSON.loads(json_serialized)

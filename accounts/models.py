@@ -37,7 +37,7 @@ class Seller(AbstractBaseUser, models.Model):
     store_name = models.CharField(max_length=45)
     location = models.CharField(max_length=200)
     description = models.CharField(max_length=200, blank=True, null=True)
-    delivery_time = models.CharField(db_column='delivery_time', max_length=45)  # Field renamed to remove unsuitable characters.
+    deliverytime = models.CharField(db_column='delivery_time', max_length=45)  # Field renamed to remove unsuitable characters.
     image = models.TextField()
     category=models.CharField(max_length=45)
     objects =  UserAccountManager()
@@ -108,7 +108,7 @@ class Item(models.Model):
     price = models.IntegerField()
     gender = models.CharField(max_length=45, blank=True, null=True)
     types = models.CharField(max_length=45, blank=True, null=True)
-    size = models.IntegerField(blank=True, null=True)
+    size = models.CharField(max_length=45)
     image = models.TextField()
     material = models.CharField(max_length=45, blank=True, null=True)
     category = models.ForeignKey(Category,on_delete=models.CASCADE, blank=True, null=True)
