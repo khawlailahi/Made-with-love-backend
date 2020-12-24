@@ -18,6 +18,7 @@ from accounts.models import Seller
 from accounts.models import Buyer
 from accounts.models import Category
 from accounts.models import Order
+
 class getCategoryStore (APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, cat):
