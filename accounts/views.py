@@ -5,16 +5,18 @@ from rest_framework import permissions
 import jwt,json
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password , make_password
 from django.contrib.auth import authenticate
-
-
-#importinf models of tables 
+from django.contrib.auth import get_user_model
+import jwt
 from .models import Seller
+from django.http import HttpResponse
+import json 
+import codecs
+
 from .models import Buyer
 from .models import Category
-import json as JSON
-from django.contrib.auth.hashers import check_password
+
 
 # import jwt
 #  key = "secret"
@@ -50,6 +52,7 @@ class signupSeller(APIView):
             # user.save()
             return Response ({'success':'Seller registered'})
 
+
 class signupBuyer(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -69,37 +72,50 @@ class signupBuyer(APIView):
             return Response ({'success':"Buyer registered"})
 
 
-# class Login(APIView):
-#     permission_classes = (permissions.AllowAny,)
-#     def post(self, request):
-#         if not request.data:
-#             return Response({'Error': "Please provide username/password"}, status="400")
-#         email = request.data['email']
-#         password = request.data['password']
-#         try:
-#             user = Seller.objects.get(email=email)
 
-#             print() 
-#         except Seller.DoesNotExist:
-#             return Response({'Error':'nooo'}, status="400")
-#         if :
-#             payload = {
-#                 'email': user.email,
-#             }
-#             jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
-#             return Response( JSON.dumps(jwt_token),
-#               status=200,
-#               content_type="application/json")
-#         else:
-#             return Response(
-#               JSON.dumps({'Error': "Invalid credentials"}),
-#               status=400,
-#               content_type="application/json"
-#             )
+class Login(APIView):
+    permission_classes = (permissions.AllowAny,)
 
+    def post(self, request):
+        if not request.data:
+            return Response({'Error': "Please provide username/password"}, status="400")
+        email = request.data['email']
+        password = request.data['password']
+       
+        try:
+            print('hello')
 
+            Seller.objects.get(email=email, password=password)
+            Buyer.objects.get(email=email, password=password)
 
+        except Buyer.DoesNotExist:
+            print('fgfg')
+            userSeller = Seller.objects.get(email=email, password=password)
+            if userSeller:
+                payload = {
+                    'email': userSeller.email,
+            }
+            jwt_token = {'token': jwt.encode(payload, "SECRET_KEY"),"id_store":userSeller.store_id, "type":"seller"}
+            return Response(jwt_token)
+              
 
+        except Seller.DoesNotExist:
+            userBuyer = Buyer.objects.get(email=email, password=password)
+
+            if userBuyer:
+                payload = {
+                    'email': userBuyer.email,
+            }
+            jwt_token = {'token': jwt.encode(payload, "SECRET_KEY"),"id_store":userBuyer.buyer_id, "type":"buyer"}
+            return Response( jwt_token)
+              
+
+        else :
+            return Response(
+            json.dumps({'Error': "Invalid credentials"}),
+            status=400,
+            content_type="application/json"
+            )
         
 
 
