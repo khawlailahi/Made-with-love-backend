@@ -9,6 +9,7 @@ from .views import sellerVisit
 from .views import getListOrder
 
 urlpatterns = [
+ path('<slug:cat>', getCategoryStore.as_view(), ),  
  path('addItem', addItem.as_view()),
  path('delete/<int:pk>/', SnippetDetailSeller.as_view()),
  path('editProfile', SnippetDetailSeller.as_view()),
@@ -17,6 +18,7 @@ urlpatterns = [
  path('visit/items/<int:pk>', getItemsVisit.as_view()),
  path('visit/<int:pk>', sellerVisit.as_view()),
  path('addItem', addItem .as_view(), ),
- path('<slug:cat>', getCategoryStore.as_view(), ),
- path('order/list', getListOrder.as_view(), )
+
+ path('order/list/<int:pk>', getListOrder.as_view(), )
+
  ]
