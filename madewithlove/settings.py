@@ -103,12 +103,11 @@ WSGI_APPLICATION = 'madewithlove.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_a31a3b4c3326b91',
-        'USER' :'b4152217a5ee2b',
-        'PASSWORD':'8f7ec055',
+        'NAME': 'heroku_2a31e7fa6357e1a',
+        'USER' :'b0996f1861d8a9',
+        'PASSWORD':'6912d189',
         'HOST': 'us-cdbr-east-02.cleardb.com',
         'PORT':'3306',
-      
     }
 }
 AUTHENTICATION_BACKENDS = (
