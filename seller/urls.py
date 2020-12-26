@@ -20,6 +20,5 @@ urlpatterns = [
  path('addItem', addItem .as_view(), ),
 
  path('order/list/<int:pk>', getListOrder.as_view(), )
- path('<slug:cat>', getCategoryStore.as_view(), ),
- path('order/list', getListOrder.as_view(), )
+
  ]
