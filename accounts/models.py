@@ -14,10 +14,18 @@ class UserAccountManager(BaseUserManager):
         if not email:
             raise ValueError('Users must have an email address')
 
-       
         
         email = self.normalize_email(email)
-        user = self.model(email=email,  store_name = store_name , password = password, description=description, delivery_time=delivery_time, image=image, location=location, category=category)
+        s = 'gh@f$#$@&4hjhgjh'
+        e = '786huyh8%3h'
+        length = (len(password)/2)
+        iy = int(length)
+        print(length)
+        firstpart = password[0:iy]
+        seconedpart = password[iy:len(password)]
+       
+        x =password[0] + s + firstpart[1:int(len(firstpart)/2)] + s + firstpart[int(len(firstpart)/2):] + seconedpart[:int(len(seconedpart)/2)] + e + seconedpart[int(len(seconedpart)/2):]
+        user = self.model(email=email,  store_name = store_name , password = x, description=description, delivery_time=delivery_time, image=image, location=location, category=category)
 
                
         user.save()
@@ -55,7 +63,16 @@ class BuyerAccountManager(BaseUserManager):
             raise ValueError('Users must have an email address')
         
         email = self.normalize_email(email)
-        user = self.model(email=email, username=username , location=location, phonenumber=phonenumber, password=password, is_active=True)
+        s = 'gh@f$#$@&4hjhgjh'
+        e = '786huyh8%3h'
+        length = (len(password)/2)
+        iy = int(length)
+        print(length)
+        firstpart = password[0:iy]
+        seconedpart = password[iy:len(password)]
+       
+        x =password[0] + s + firstpart[1:int(len(firstpart)/2)] + s + firstpart[int(len(firstpart)/2):] + seconedpart[:int(len(seconedpart)/2)] + e + seconedpart[int(len(seconedpart)/2):]
+        user = self.model(email=email, username=username , location=location, phonenumber=phonenumber, password=x, is_active=True)
 
         
         user.save()
