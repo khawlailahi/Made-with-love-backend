@@ -5,7 +5,7 @@ from rest_framework import permissions
 import jwt,json
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth.hashers import check_password , make_password
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 import jwt
@@ -50,7 +50,9 @@ class signupSeller(APIView):
         image = data ['url']
         #check if email exsists
         obj = Seller.objects.filter(email = email)
-        if obj :
+        tr1 = Seller.objects.filter(email = email)
+
+        if obj or tr1:
             return Response ({'error':"Email already exist"})
         else:
             user = Seller.objects.create_user(email = email, store_name = store_name , password = password, description=description, delivery_time=delivery_time, image=image, location=location, category=category)
@@ -70,7 +72,10 @@ class signupBuyer(APIView):
         location=data['location']
         #check if email exsists
         obj = Buyer.objects.filter(email = email)
-        if obj :
+        tr1 = Seller.objects.filter(email = email)
+       
+
+        if obj or tr1:
             return Response ({'error':"Email already exist"})
         else:
             user =Buyer.objects.create_user(email=email, username=username , location=location, phonenumber=phonenumber, password=password, is_active = True)
@@ -90,13 +95,20 @@ class Login(APIView):
         try:
             print('hello')
 
-            Seller.objects.get(email=email, password=password)
-            Buyer.objects.get(email=email, password=password)
-
+            Seller.objects.get(email=email)
+           
+            user = Buyer.objects.get(email=email)
+            
+           
         except Buyer.DoesNotExist:
             print('fgfg')
-            userSeller = Seller.objects.get(email=email, password=password)
-            if userSeller:
+            userSeller = Seller.objects.get(email=email)
+            password = self.request.data['password']
+            s = 'gh@f$#$@&4hjhgjh'
+            e = '786huyh8%3h'
+            r ="".join(userSeller.password.split(s))
+            t = "".join(r.split(e))
+            if t == self.request.data['password']:
                 payload = {
                     'email': userSeller.email,
             }
@@ -105,9 +117,13 @@ class Login(APIView):
               
 
         except Seller.DoesNotExist:
-            userBuyer = Buyer.objects.get(email=email, password=password)
-
-            if userBuyer:
+            userBuyer = Buyer.objects.get(email=email)
+            password = self.request.data['password']
+            s = 'gh@f$#$@&4hjhgjh'
+            e = '786huyh8%3h'
+            r ="".join(userBuyer.password.split(s))
+            t = "".join(r.split(e))
+            if t == self.request.data['password']:
                 payload = {
                     'email': userBuyer.email,
             }

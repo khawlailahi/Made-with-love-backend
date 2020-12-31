@@ -109,7 +109,6 @@ DATABASES = {
         'PASSWORD':'6912d189',
         'HOST': 'us-cdbr-east-02.cleardb.com',
         'PORT':'3306',
-      
     }
 }
 AUTHENTICATION_BACKENDS = (
