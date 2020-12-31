@@ -13,6 +13,11 @@ from .models import Seller
 from django.http import HttpResponse
 import json 
 import codecs
+from rest_framework import status, exceptions
+from django.http import HttpResponse
+from rest_framework.authentication import get_authorization_header, BaseAuthentication
+from django.http import HttpResponse
+
 
 from .models import Buyer
 from .models import Category
@@ -48,7 +53,7 @@ class signupSeller(APIView):
         if obj :
             return Response ({'error':"Email already exist"})
         else:
-            user = Seller.objects.create_user(email = email, store_name = store_name , password = password, description=description, deliverytime=delivery_time, image=image, location=location, category=category)
+            user = Seller.objects.create_user(email = email, store_name = store_name , password = password, description=description, delivery_time=delivery_time, image=image, location=location, category=category)
             # user.save()
             return Response ({'success':'Seller registered'})
 
@@ -121,34 +126,47 @@ class Login(APIView):
 
 class Login(APIView):
     permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         if not request.data:
             return Response({'Error': "Please provide username/password"}, status="400")
-        
         email = request.data['email']
         password = request.data['password']
         try:
+            print('hello')
+            Seller.objects.get(email=email)
             user = Buyer.objects.get(email=email)
-            print(user)
         except Buyer.DoesNotExist:
-
-            return Response({'Error':'nooo'}, status="400")
-
-        if user.check_password(password):
-            payload = {
-                
-                'email': user.email,
+            userSeller = Seller.objects.get(email=email)
+            password = self.request.data['password']
+            s = 'gh@f$#$@&4hjhgjh'
+            e = '786huyh8%3h'
+            r ="".join(userSeller.password.split(s))
+            t = "".join(r.split(e))
+            if t == self.request.data['password']:
+                payload = {
+                    'email': userSeller.email,
             }
-            jwt_token = {'token': jwt.encode(payload, "SECRET_KEY")}
-
-            return Response( json.dumps(jwt_token),
-              status=200,
-              content_type="application/json")
-             
-        else:
+            tok = jwt.encode(payload, "SECRET_KEY")
+            jwt_token = {'token': jwt.encode(payload, "SECRET_KEY"),"id":userSeller.store_id, "type":"seller"}
+            return Response(jwt_token)
+        except Seller.DoesNotExist:
+            userBuyer = Buyer.objects.get(email=email)
+            password = self.request.data['password']
+            s = 'gh@f$#$@&4hjhgjh'
+            e = '786huyh8%3h'
+            r ="".join(userBuyer.password.split(s))
+            t = "".join(r.split(e))
+            if t == self.request.data['password']:
+                payload = {
+                    'email': userBuyer.email
+                }
+            jwt_token = {'token': jwt.encode({
+                    'email': userBuyer.email
+                }, "SECRET_KEY"),"id_store":userBuyer.buyer_id, "type":"buyer"}
+            return Response(jwt_token)
+        else :
             return Response(
-              json.dumps({'Error': "Invalid credentials"}),
-              status=400,
-              content_type="application/json"
+            json.dumps({'Error': "Invalid credentials"}),
+            status=400,
+            content_type="application/json"
             )
