@@ -6,11 +6,12 @@ from django.urls import include, re_path
 # ---> add here the rest of the url 
 # path('', signupSeller.as_view(),)
 
-
 from .views import buyerUsername
 from .views import buyerPassword
 from .views import buyerLocation
+from .views import buyerNumber
 from .views import getAll
+from .views import rate
 
 urlpatterns = [
     path('userName', buyerUsername.as_view(), ),
@@ -19,6 +20,7 @@ urlpatterns = [
     path('order', orderItem.as_view(), ),
     path('<slug:cat>', getCategoryItems.as_view(), ),
     path('getAll/' , getAll.as_view(),),
-    
+    path('phoneNumber/', buyerNumber.as_view(),),
+    path('ratingg/', rate.as_view(),)
 
  ]
