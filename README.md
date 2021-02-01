@@ -15,9 +15,9 @@ we aim to eliminate this problem by providing a website where all homemade produ
 
 # Technologies:
 
-Front-end : React JS , Redux , React-hooks
-Backend : Django, Python
-Databse : MySQL - MySQL Workbench 
+- Front-end : React JS , Redux , React-hooks
+- Backend : Django, Python
+- Databse : MySQL - MySQL Workbench 
 
 Other technologies used :
 - Heroku
