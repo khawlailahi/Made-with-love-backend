@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from payments import views
-from .views import PaymentView
+from .views import Payment_view
 urlpatterns = [
-    url('checkout',  PaymentView.as_view(), ),
+    url('checkout',  Payment_view.as_view(), ),
 ]

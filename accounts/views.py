@@ -22,12 +22,11 @@ from .models import Category
 from .models import Comments
 from .models import Review
 
-class signupSeller(APIView):
+class signup_seller(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
         data = self.request.data  
-        print(data)
         email = data['email']
         password = data['password']
         store_name = data['storeName']
@@ -48,7 +47,7 @@ class signupSeller(APIView):
             return Response ({'success':'Seller registered'})
 
 
-class signupBuyer(APIView):
+class signup_buyer(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
         data = self.request.data  
@@ -69,7 +68,7 @@ class signupBuyer(APIView):
                 tok = jwt.encode(payload, "SECRET_KEY")
                 user =Buyer.objects.create_user(email=email, username=username , location=location, phonenumber=phonenumber, password=password, is_active = True)
                 userId = Buyer.objects.get(email =  email )
-                jwt_token = {'token': jwt.encode(payload, "SECRET_KEY"),"buyer_id":userId.buyer_id, "type":"buyer"}
+                jwt_token = {'token': jwt.encode(payload, "SECRET_KEY"),"is_store":userId.buyer_id, "type":"buyer"}
                 return Response(jwt_token)
             else:
                 user =Buyer.objects.create_user(email=email, username=username , location=location, phonenumber=phonenumber, password=password, is_active = True)
@@ -77,7 +76,7 @@ class signupBuyer(APIView):
 
 
 
-class Login(APIView):
+class login(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request):
         if not request.data:
@@ -147,6 +146,7 @@ class comment(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request):
         data = self.request.data  
+        print(data)
         text = data['text']
         user_id = data ['user_id']
         item_id = data['item_id']
@@ -162,7 +162,7 @@ class comment(APIView):
         Comments.objects.create(comment = text , iditem = item_id, idbuyer = user_id, idstore = store.store_id , types=types)
         return Response( {"username" : username })
         
-class getcomments(APIView):
+class get_comments(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request,id):
         data = Comments.objects.filter(iditem = id)
@@ -180,14 +180,14 @@ class getcomments(APIView):
         return Response(data)
 
 
-class deleteComment(APIView):
+class delete_comment(APIView):
     permission_classes = (permissions.AllowAny,)  
     def delete(self, request, pk, format=None):
         Comments.objects.filter(pk=pk).delete()
         return Response('Deleteeeed')
 
 #get the stores that have reviews
-class mostPopuler (APIView):
+class most_populer (APIView):
     permission_classes = (permissions.AllowAny,)  
     def get(self, request, format=None):
         data = Review.objects.all()

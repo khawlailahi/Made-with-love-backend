@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # 'djoser',
     'rest_framework',
     'accounts',
+    'rest_framework_simplejwt'
     
 ]
 

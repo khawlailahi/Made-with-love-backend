@@ -13,7 +13,7 @@ from accounts.models import Category
 from accounts.models import Review
 from accounts.models import Order
 
-class orderItem(APIView):
+class order_item(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
         data = self.request.data
@@ -42,7 +42,7 @@ class orderItem(APIView):
             orders= Order.objects.create(buyer_id = buyer.buyer_id, quantity=quantity, store_id=seller.store_id, item_id=item_id, phonenumber=phonenumber, order_date=date, location=location, price = total , is_payed=pay )
             return HttpResponse({"success":"ordered"} ,status="200")
         
-class getCategoryItems(APIView):
+class get_category_items(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, cat):
         if cat == 'food':
@@ -125,7 +125,7 @@ class rate(APIView):
 
 
  #changing buyer password       
-class  buyerPassword(APIView):
+class  buyer_password(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -153,7 +153,7 @@ class  buyerPassword(APIView):
             return HttpResponse({"Unauthorized":"password incorrect"} ,status="400")
 
  #changing buyer username        
-class  buyerUsername(APIView):
+class  buyer_username(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -164,7 +164,7 @@ class  buyerUsername(APIView):
          return HttpResponse({"success":"username changed"} ,status="200")
 
  #changing buyer location
-class  buyerLocation(APIView):
+class  buyer_location(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -175,7 +175,7 @@ class  buyerLocation(APIView):
          return HttpResponse({"success":"location changed"} ,status="200")
 
  #changing buyer phone number
-class buyerNumber(APIView):
+class buyer_number(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -185,7 +185,7 @@ class buyerNumber(APIView):
          Buyer.objects.filter(email= tole).update(phonenumber = phoneNumber)
          return HttpResponse({"success":"location changed"} ,status="200")
 
-class getAll(APIView):
+class get_all(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request):
         token = request.META.get('HTTP_AUTHORIZATION')

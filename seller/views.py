@@ -19,7 +19,7 @@ from accounts.models import Order
 
 
 #get stores by category
-class getCategoryStore (APIView):
+class get_category_store (APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, cat):
         obj = Seller.objects.filter(category = cat)
@@ -29,7 +29,7 @@ class getCategoryStore (APIView):
         return Response (data)
 
         
-class addItem(APIView):
+class add_item(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
         data = self.request.data
@@ -46,32 +46,32 @@ class addItem(APIView):
             category_id = Category.objects.get(category_id =200)
             store = Seller.objects.get(store_id =store1)
             s = store.store_id
-            item = Item.objects.create (productname = productName, store_id=s, description=description, price=price, gender=gender, size=size, image=image, category=category_id)
+            item = Item.objects.create (productname = productName, store_id=s, description=description, price=price, gender=gender, size=size, image=image, category=200)
             return HttpResponse({'success': 'Add Item'} ,status="200")
         if(category == 'food'):
             types = data['type']
             store = Seller.objects.get(store_id =store1)
             s = store.store_id
             category_id = Category.objects.get(category_id =100)
-            item = Item.objects.create (productname = productName,store_id=s, description=description, price=price,types=types, image=image, category_id=category_id)
+            item = Item.objects.create (productname = productName,store_id=s, description=description, price=price,types=types, image=image, category_id=100)
             return HttpResponse({'success': 'Add Item'} ,status="200")
         if category == 'accessories':
             material = data['material']
             store = Seller.objects.get(store_id =store1)
             s = store.store_id
             category_id = Category.objects.get(category_id =300)
-            item = Item.objects.create (productname = productName,store_id=s, description=description, price=price, image=image, material=material, category=category_id)
+            item = Item.objects.create (productname = productName,store_id=s, description=description, price=price, image=image, material=material, category=300)
             return HttpResponse({'success': 'Add Item'} ,status="200")
         if category == 'babyproducts':
             gender = data['gender']
             store = Seller.objects.get(store_id =store1)
             s = store.store_id
             category_id = Category.objects.get(category_id =400)
-            item = Item.objects.create (productname = productName,store_id=s, description=description, price=price, gender=gender, image=image, category=category_id)
+            item = Item.objects.create (productname = productName,store_id=s, description=description, price=price, gender=gender, image=image, category=400)
             return HttpResponse({'success': 'Add Item'} ,status="200")
 
        
-class getItems(APIView):
+class get_items(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request,pk, format=None):
          obj = Item.objects.filter(store_id=pk)
@@ -85,7 +85,7 @@ class getItems(APIView):
          return Response(data)
 
 
-class getItemsVisit(APIView):
+class get_items_visit(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request,pk, format=None):
          obj = Item.objects.filter(store_id=pk)
@@ -98,7 +98,7 @@ class getItemsVisit(APIView):
              x["fields"]["store"] = z.store_name
          return Response(data)
 
-class sellerVisit(APIView):
+class seller_visit(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request,pk, format=None):
         obj1 = Seller.objects.filter(pk=pk)
@@ -112,14 +112,14 @@ class sellerVisit(APIView):
         myData.append(json_serialized)
         return Response(json_serialized1)
 
-class deleteItem(APIView):
+class delete_item(APIView):
     permission_classes = (permissions.AllowAny,)  
     def delete(self, request, pk, format=None):
         Item.objects.filter(pk=pk).delete()
         print('Deleeeete')
         return Response('Deleteeeed')
 
-class getRate (APIView):
+class get_rate (APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request,pk, format=None):
         token = request.META.get('HTTP_AUTHORIZATION')
@@ -167,7 +167,7 @@ class getRate (APIView):
 
 
 
-class SnippetDetailSeller(APIView):
+class snippet_detail_seller(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request,pk, format=None):
@@ -183,7 +183,7 @@ class SnippetDetailSeller(APIView):
         myData.append(json_serialized)
         return Response(json_serialized1)
 
-class getListOrder (APIView):
+class get_list_order (APIView):
      permission_classes = (permissions.AllowAny,)
      def get(self, request, pk):
          store = Seller.objects.get(store_id=pk)
@@ -201,7 +201,7 @@ class getListOrder (APIView):
          return Response (data)
 
 
-class  sellerPassword(APIView):
+class  seller_password(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -232,7 +232,7 @@ class  sellerPassword(APIView):
          else:
             return HttpResponse({"Unauthorized":"password incorrect"} ,status="400")
 
-class  sellerStorename(APIView):
+class  seller_storename(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -242,7 +242,7 @@ class  sellerStorename(APIView):
          Seller.objects.filter(email= tole).update(store_name =storeName )
          return HttpResponse({"success":"location changed"} ,status="200") 
 
-class editItem (APIView):
+class edit_item (APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, pk):
         data = self.request.data
@@ -265,7 +265,7 @@ class editItem (APIView):
                 return HttpResponse({"Error":"ERROR"} ,status="401")
 
 #changing seller settings 
-class  sellerLocation(APIView):
+class  seller_location(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -276,7 +276,7 @@ class  sellerLocation(APIView):
          return HttpResponse({"success":"location changed"} ,status="200")
 
 
-class  sellerDelivery(APIView):
+class  seller_delivery(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -287,7 +287,7 @@ class  sellerDelivery(APIView):
          return HttpResponse({"success":"delivery time changed"} ,status="200")
 
 
-class  sellerImage(APIView):
+class  seller_image(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -297,7 +297,7 @@ class  sellerImage(APIView):
          Seller.objects.filter(email= tole).update(image =image )
          return HttpResponse({"success":"location changed"} ,status="200")
 
-class  sellerDescription(APIView):
+class  seller_description(APIView):
      permission_classes = (permissions.AllowAny,)
      def post(self, request,format=None):
          data = self.request.data
@@ -307,7 +307,7 @@ class  sellerDescription(APIView):
          Seller.objects.filter(email= tole).update(description =description )
          return HttpResponse({"success":"description changed"} ,status="200")
 
-class getAll(APIView):
+class get_all(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request):
         token = request.META.get('HTTP_AUTHORIZATION')

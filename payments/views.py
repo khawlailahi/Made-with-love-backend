@@ -12,7 +12,7 @@ from rest_framework.response import Response
 
 
 
-class PaymentView(APIView):
+class Payment_view(APIView):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     permission_classes = (permissions.AllowAny,)
  
